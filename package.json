@@ -1,0 +1,24 @@
+{
+  "name": "movies-sp2-m4-gui2912",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Kenzie-Academy-Brasil-Developers/movies-sp2-m4-gui2912.git",
+  "author": "Gui2912 <dainize22@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/app.ts"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.3"
+  },
+  "dependencies": {
+    "@types/pg": "^8.6.6",
+    "@types/pg-format": "^1.0.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "pg": "^8.10.0",
+    "pg-format": "^1.0.4"
+  }
+}
