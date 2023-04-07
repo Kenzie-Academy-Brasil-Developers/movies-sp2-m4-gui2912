@@ -136,12 +136,6 @@ const ensureDataIsValid = async (
             error: "Duration and price inputs must have to be a number",
         });
     }
-
-
-    // if(method === 'POST'){
-    //     const dataConfigured
-    // }
-
     return next();
 };
 

@@ -11,8 +11,8 @@ const createMovie = async (req: Request, res: Response): Promise<Response> => {
         name: data.name,
         category: data.category,
         duration: data.duration,
-        price: data.price
-    }
+        price: data.price,
+    };
 
     const queryInsert: string = format(
         `
@@ -57,27 +57,50 @@ const listMovieById = async (
     return res.status(200).json(res.locals.movieFind);
 };
 
-const deleteMovie = async (req:Request, res: Response): Promise<Response> => {
-    const movieId:number = res.locals.movieFind.id
-    
-    const querySelect:string = 
-    `
+const deleteMovie = async (req: Request, res: Response): Promise<Response> => {
+    const movieId: number = res.locals.movieFind.id;
+
+    const querySelect: string = `
         DELETE FROM
             movies mv
         WHERE
             mv.id = $1;
     `;
 
-    const queryConfig:QueryConfig = {
+    const queryConfig: QueryConfig = {
         text: querySelect,
-        values: [movieId]
-    }
+        values: [movieId],
+    };
 
-    await client.query(queryConfig)
-    
+    await client.query(queryConfig);
 
-    return res.status(204).json()
+    return res.status(204).json();
+};
 
-}
+const updadteMovie = async (req: Request, res: Response): Promise<Response> => {
+    const id: number = res.locals.movieFind.id;
+    const data: Partial<iMovieRequest> = req.body;
+    const queryUpdate: string = format(
+        `
+            UPDATE 
+                movies mv
+                SET(%I) = ROW(%L)
+            WHERE
+                mv.id = $1
+            RETURNING *;
+        `,
+        Object.keys(data),
+        Object.values(data)
+    );
 
-export { listMovies, createMovie, listMovieById,deleteMovie };
+    const queryConfig: QueryConfig = {
+        text: queryUpdate,
+        values: [id],
+    };
+
+    const queryResult: MovieResult = await client.query(queryConfig)
+
+    return res.status(200).json(queryResult.rows[0]);
+};
+
+export { listMovies, createMovie, listMovieById, deleteMovie, updadteMovie };
